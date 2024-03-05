@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dashboardMapper">
+	<!-- namespace : 공간(영역,지역,태그)의 이름 -->
+
+	<!--mapper 파일 생성 시 아래 태그 반드시 삭제! -->
+	<!-- <cache-ref namespace=""/> -->
+
+	<!-- resultMap - SELECT 조회 결과(ResultSet) 컬럼명과 컬럼 값을 옮겨 담을 DTO의 필드명이 같지 않을 
+		때 이를 매핑 시켜 SELECT시 자동으로 담기게하는 역할 -속성 type : 연결할 VO (패키지명 + 클래스명 또는 별칭) id 
+		: 만들어진 resultMap을 지칭할 식별명(이름) <id> 태그 : PK 역할 컬럼 - 필드 매핑 <result> 태그 : <id>제외 
+		나머지 -->
+
+	<resultMap type="Member" id="member_rm">
+		<!-- DB의 기본 키(복합키면 여러 개 작성) -->
+		<id property="memberNo" column="MEMBER_NO" />
+
+		<!-- DB의 일반 컬럼들 -->
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="memberPw" column="MEMBER_PW" />
+		<result property="memberNickname" column="MEMBER_NICKNAME" />
+		<result property="memberRole" column="MEMBER_ROLE" />
+		<result property="profileImg" column="PROFILE_IMG" />
+		<result property="enrollDate" column="ENROLL_DATE" />
+		<result property="disableDate" column="DISABLE_DATE" />
+		<result property="deleteDate" column="DELETE_DATE" />
+		<result property="memberCondition" column="MEMBER_CONDITION" />
+		<result property="setAlarmReply" column="SET_AL_REPLY" />
+		<result property="setAlarmLike" column="SET_AL_LIKE" />
+	</resultMap>
+
+
+	<resultMap type="Feedback" id="feedback_rm">
+		<!-- DB의 기본 키(복합키면 여러 개 작성) -->
+		<id property="feedbackNo" column="FEEDBACK_NO" />
+
+		<!-- DB의 일반 컬럼들 -->
+
+		<result property="memberNo" column="MEMBER_NO" />
+		<result property="adminNo" column="ADMIN_NO" />
+		<result property="memberNickname" column="MEMBER_NICKNAME" />
+		<result property="managerNickname" column="MANAGER_NICKNAME" />
+		<result property="feedbackTitle" column="FEEDBACK_TITLE" />
+		<result property="feedbackText" column="FEEDBACK_TEXT" />
+		<result property="feedbackDate" column="FEEDBACK_DATE" />
+		<result property="adminText" column="ADMIN_TEXT" />
+		<result property="feedback_CF_FL" column="CONFIRM_FL" />
+		<result property="feedback_DEL_FL" column="FEEDBACK_DEL_FL" />
+		<result property="feedback_CF_Date" column="CONFIRM_DATE" />
+
+	</resultMap>
+
+
+	<resultMap type="Report" id="report_rm">
+		<!-- DB의 기본 키(복합키면 여러 개 작성) -->
+		<id property="reportNo" column="REPORT_NO" />
+
+		<!-- DB의 일반 컬럼들 -->
+		<result property="memberNo" column="MEMBER_NO" />
+		<result property="memberNickname" column="MEMBER_NICKNAME" />
+		<result property="reportedNickname" column="REPORTED_NICKNAME" />
+		<result property="reportCategory" column="REPORT_CATEGORY" />
+		<result property="reportDate" column="REPORT_DATE" />
+		<result property="reprot_CF_FL" column="CONFIRM_FL" />
+		<result property="report_CF_Date" column="CONFIRM_DATE" />
+		<result property="adminNo" column="ADMIN_NO" />
+		<result property="boardNo" column="BOARD_NO" />
+		<result property="boardDelete" column="BOARD_DELETE" />
+		<result property="boardTitle" column="BOARD_TITLE" />
+		<result property="boardCode" column="BOARD_CODE" />
+		<result property="countryNo" column="COUNTRY_NO" />
+
+	</resultMap>
+
+
+
+	<resultMap type="Board" id="board_rm">
+		<!-- DB의 기본 키(복합키면 여러 개 작성) -->
+		<id property="boardNo" column="BOARD_NO" />
+
+		<!-- DB의 일반 컬럼들 -->
+		<result property="boardTitle" column="BOARD_TITLE" />
+		<result property="boardText" column="BOARD_TEXT" />
+		<result property="createDate" column="CREATE_DATE" />
+		<result property="boardUpdate" column="UPDATE_DATE" />
+		<result property="readCount" column="READ_COUNT" />
+		<result property="boardCode" column="BOARD_CODE" />
+		<result property="boardDelete" column="BOARD_DELETE" />
+
+
+		<!-- JOIN -->
+		<result property="commentCount" column="COMMENT_COUNT" />
+		<result property="likeCount" column="LIKE_COUNT" />
+		<result property="memberNickname" column="MEMBER_NICKNAME" />
+		<result property="memberNo" column="MEMBER_NO" />
+		<result property="profileImage" column="PROFILE_IMG" />
+		<result property="countryNo" column="COUNTRY_NO" />
+		<result property="tagNo" column="TAG_NO" />
+		<result property="thumbnail" column="THUMBNAIL" />
+		<result property="tagContent" column="TAG_CONTENT" />
+		
+
+
+		<!--<collection property="imageList" select="selectImageList" column="BOARD_NO" 
+			javaType="java.util.ArrayList" ofType="BoardImage" /> -->
+
+		<!-- <collection property="replyList" select="selectReplyList" column="BOARD_NO" 
+			javaType="java.util.ArrayList" ofType="Reply" /> -->
+	</resultMap>
+
+	<!--리플 -->
+	<resultMap type="Reply" id="reply_rm">
+		<id property="replyNo" column="COMMENT_NO" />
+		<result property="replyContent" column="REPLY_CONTENT" />
+		<result property="replyDate" column="REPLY_DATE" />
+		<result property="updateDate" column="REPLY_UPDATE" />
+		<result property="replyDelete" column="REPLY_DELETE" />
+		<result property="parentReplyNo" column="PARENT_REPLY_NO" />
+
+
+	</resultMap>
+
+
+
+
+
+	<!-- SQL 관련 태그의 속성 - parameterType : 전달받은 값의 자료형 기본 : 패키지명 + 클래스명 별칭 : Mybatis 
+		별칭 또는 사용자 지정 별칭 - parameterMap : (사용 안함) - resultType : select 결과를 담아서 반환할 
+		자료형 단, DTO를 작성할 경우 필드명 = 컬럼명 경우만 가능 memberNo = Member_NO 달라 사용 불가 - resultMap 
+		: select 결과의 컬럼명과 결과를 저장할 DTO 필드명이 다를경우 이를 알맞게 매핑(연결)시켜주는 <resultMap> id 
+		작성 -->
+
+	<!-- *** 마이바티스에서 전달 받은 값을 SQL에 작성하는 방법 *** #{변수명|필드명} : PreparedStatement 
+		: SQL에 값 대입 시 양쪽에 ''붙여서 대입 ${변수명|필드명} : Statement : SQL 값 대입시 양쪽에 아무것도 붙이지 
+		않음 사용 예시 ) test1 = "user01" test2 = MEMBER_EMAIL - MEMBER_EMAIL이 'user 01' 
+		인 회원 조회 SELECT * FROM MEMBER WHERE MEMBER_EMAIL = #{test1} -->
+
+	<!-- 대시보드1 -->
+	<select id="countAllMember" resultType="_int"> <!-- 일반회원 수 -->
+		SELECT COUNT(*)
+		FROM "MEMBER"
+		WHERE MEMBER_ROLE = 2
+		AND MEMBER_CONDITION = 'N'
+	</select>
+	<select id="countAllManager" resultType="_int"> <!-- 관리자 수 -->
+		SELECT COUNT(*)
+		FROM "MEMBER"
+		WHERE MEMBER_ROLE = 1
+		AND MEMBER_CONDITION = 'N'
+	</select>
+	<select id="countOutMember" resultType="_int"> <!-- 탈퇴회원 수-->
+		SELECT COUNT(*)
+		FROM "MEMBER"
+		WHERE MEMBER_ROLE = 2
+		AND MEMBER_CONDITION = 'Y'
+	</select>
+	<select id="countAllPost" resultType="_int"> <!-- 전체 게시글 수 -->
+		SELECT COUNT(*)
+		FROM "BOARD"
+		WHERE BOARD_DELETE = 'N'
+	</select>
+	
+	<!-- 대시보드2 -->
+	<select id="countFree" resultType="_int"> <!-- 자유게시판 게시글 수 -->
+		SELECT COUNT(*)
+		FROM "BOARD"
+		WHERE BOARD_CODE = 2
+		AND BOARD_DELETE = 'N'
+	</select> 
+	<select id="countQuestion" resultType="_int"> <!-- 질문게시판 게시글 수 -->
+		SELECT COUNT(*)
+		FROM "BOARD"
+		WHERE BOARD_CODE = 3
+		AND BOARD_DELETE = 'N'
+	</select>
+	<select id="countChina" resultType="_int"> <!-- 중국게시판 게시글 수 -->
+		SELECT COUNT(*)
+		FROM "BOARD"
+		WHERE BOARD_CODE = 1
+		AND COUNTRY_NO = 1
+		AND BOARD_DELETE = 'N'
+	</select> 
+	<select id="countJapan" resultType="_int"> <!-- 일본게시판 게시글 수 -->
+		SELECT COUNT(*)
+		FROM "BOARD"
+		WHERE BOARD_CODE = 1
+		AND COUNTRY_NO = 2
+		AND BOARD_DELETE = 'N'
+	</select> 
+	<select id="countVietnam" resultType="_int"> <!-- 베트남게시판 게시글 수 -->
+		SELECT COUNT(*)
+		FROM "BOARD"
+		WHERE BOARD_CODE = 1
+		AND COUNTRY_NO = 3
+		AND BOARD_DELETE = 'N'
+	</select> 
+	<select id="countThai" resultType="_int"> <!-- 태국게시판 게시글 수 -->
+		SELECT COUNT(*)
+		FROM "BOARD"
+		WHERE BOARD_CODE = 1
+		AND COUNTRY_NO = 4
+		AND BOARD_DELETE = 'N'
+	</select> 
+	<select id="countAustralia" resultType="_int"> <!-- 호주게시판 게시글 수 -->
+		SELECT COUNT(*)
+		FROM "BOARD"
+		WHERE BOARD_CODE = 1
+		AND COUNTRY_NO = 5
+		AND BOARD_DELETE = 'N'
+	</select> 
+	
+	
+	<!-- 대시보드3 -->
+	<select id="countTag1" resultType="_int"> <!-- 태그 1 수 -->
+		SELECT COUNT(*)
+		FROM "BOARD"
+		WHERE TAG_NO = 1
+		AND BOARD_DELETE = 'N'
+	</select>
+	<select id="countTag2" resultType="_int"> <!-- 태그 2 수 -->
+		SELECT COUNT(*)
+		FROM "BOARD"
+		WHERE TAG_NO = 2
+		AND BOARD_DELETE = 'N'
+	</select>
+	<select id="countTag3" resultType="_int"> <!-- 태그 3 수 -->
+		SELECT COUNT(*)
+		FROM "BOARD"
+		WHERE TAG_NO = 3
+		AND BOARD_DELETE = 'N'
+	</select>
+	<select id="countTag4" resultType="_int"> <!-- 태그 4 수 -->
+		SELECT COUNT(*)
+		FROM "BOARD"
+		WHERE TAG_NO = 4
+		AND BOARD_DELETE = 'N'
+	</select>
+	
+	<!-- 대시보드4 -->
+	<select id="dashboard4a" resultType="map">
+	<![CDATA[
+		SELECT
+		    (
+		        SELECT COUNT(*)
+		        FROM MEMBER
+		        WHERE ENROLL_DATE <
+		            (SELECT TRUNC(SYSDATE) - INTERVAL '6' MONTH AS "6개월 전 시간" FROM DUAL)
+		            AND MEMBER_ROLE = 2
+		            AND MEMBER_CONDITION = 'N'
+		    ) AS "member6m",
+		    (
+		        SELECT COUNT(*)
+		        FROM MEMBER
+		        WHERE ENROLL_DATE <
+		            (SELECT TRUNC(SYSDATE) - INTERVAL '3' MONTH AS "3개월 전 시간" FROM DUAL)
+		            AND MEMBER_ROLE = 2
+		            AND MEMBER_CONDITION = 'N'
+		    ) AS "member3m",
+		    (
+		        SELECT COUNT(*)
+		        FROM MEMBER
+		        WHERE ENROLL_DATE <
+		            (SELECT TRUNC(SYSDATE) - INTERVAL '2' MONTH AS "2개월 전 시간" FROM DUAL)
+		            AND MEMBER_ROLE = 2
+		            AND MEMBER_CONDITION = 'N'
+		    ) AS "member2m",
+		    (
+		        SELECT COUNT(*)
+		        FROM MEMBER
+		        WHERE ENROLL_DATE <
+		            (SELECT TRUNC(SYSDATE) - INTERVAL '1' MONTH AS "1개월 전 시간" FROM DUAL)
+		            AND MEMBER_ROLE = 2
+		            AND MEMBER_CONDITION = 'N'
+		    ) AS "member1m",
+		    (
+		        SELECT COUNT(*)
+		        FROM MEMBER
+		        WHERE ENROLL_DATE < (SELECT SYSDATE - 14 AS "2주일 전 시간" FROM DUAL)
+		            AND MEMBER_ROLE = 2
+		            AND MEMBER_CONDITION = 'N'
+		    ) AS "member2w",
+		    (
+		        SELECT COUNT(*)
+		        FROM MEMBER
+		        WHERE ENROLL_DATE < (SELECT SYSDATE - 7 AS "1주일 전 시간" FROM DUAL)
+		            AND MEMBER_ROLE = 2
+		            AND MEMBER_CONDITION = 'N'
+		    ) AS "member1w",
+		    (
+		        SELECT COUNT(*)
+		        FROM MEMBER
+		        WHERE MEMBER_ROLE = 2
+		            AND MEMBER_CONDITION = 'N'
+		    ) AS "memberNow"
+		FROM DUAL
+	]]>
+	</select>
+	<select id="dashboard4b" resultType="map">
+	<![CDATA[
+		SELECT
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE ='N'
+				AND CREATE_DATE <
+				(SELECT TRUNC(SYSDATE) - INTERVAL '6' MONTH AS "6개월 전 시간" FROM DUAL)
+			) AS "post6m",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE ='N'
+				AND CREATE_DATE <
+				(SELECT TRUNC(SYSDATE) - INTERVAL '3' MONTH AS "3개월 전 시간" FROM DUAL)
+			) AS "post3m",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE ='N'
+				AND CREATE_DATE <
+				(SELECT TRUNC(SYSDATE) - INTERVAL '2' MONTH AS "2개월 전 시간" FROM DUAL)
+			) AS "post2m",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE ='N'
+				AND CREATE_DATE <
+				(SELECT TRUNC(SYSDATE) - INTERVAL '1' MONTH AS "1개월 전 시간" FROM DUAL)
+			) AS "post1m",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE ='N'
+				AND CREATE_DATE <
+				(SELECT SYSDATE - 14 AS "2주일 전 시간" FROM DUAL)
+			) AS "post2w",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE ='N'
+				AND CREATE_DATE <
+				(SELECT SYSDATE - 7 AS "1주일 전 시간" FROM DUAL)
+			) AS "post1w",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+			) AS "postNow"
+		FROM DUAL
+	]]>
+	</select>
+	<select id="dashboard4c" resultType="map">
+	<![CDATA[
+		SELECT
+			(
+				SELECT COUNT(*)
+				FROM "MEMBER"
+				WHERE MEMBER_CONDITION = 'Y'
+				AND DELETE_DATE <
+				(SELECT TRUNC(SYSDATE) - INTERVAL '6' MONTH AS "6개월 전 시간" FROM DUAL)
+			) AS "out6m",
+			(
+				SELECT COUNT(*)
+				FROM "MEMBER"
+				WHERE MEMBER_CONDITION = 'Y'
+				AND DELETE_DATE <
+				(SELECT TRUNC(SYSDATE) - INTERVAL '3' MONTH AS "3개월 전 시간" FROM DUAL)
+			) AS "out3m",
+			(
+				SELECT COUNT(*)
+				FROM "MEMBER"
+				WHERE MEMBER_CONDITION = 'Y'
+				AND DELETE_DATE <
+				(SELECT TRUNC(SYSDATE) - INTERVAL '2' MONTH AS "2개월 전 시간" FROM DUAL)
+			) AS "out2m",
+			(
+				SELECT COUNT(*)
+				FROM "MEMBER"
+				WHERE MEMBER_CONDITION = 'Y'
+				AND DELETE_DATE <
+				(SELECT TRUNC(SYSDATE) - INTERVAL '1' MONTH AS "1개월 전 시간" FROM DUAL)
+			) AS "out1m",
+			(
+				SELECT COUNT(*)
+				FROM "MEMBER"
+				WHERE MEMBER_CONDITION = 'Y'
+				AND DELETE_DATE <
+				(SELECT SYSDATE - 14 AS "2주일 전 시간" FROM DUAL)
+			) AS "out2w",
+			(
+				SELECT COUNT(*)
+				FROM "MEMBER"
+				WHERE MEMBER_CONDITION = 'Y'
+				AND DELETE_DATE <
+				(SELECT SYSDATE - 7 AS "1주일 전 시간" FROM DUAL)
+			) AS "out1w",
+			(
+				SELECT COUNT(*)
+				FROM "MEMBER"
+				WHERE MEMBER_CONDITION = 'Y'
+			) AS "outNow"
+		FROM DUAL
+	]]>
+	</select>
+	<select id="dashboard4d" resultType="map">
+	<![CDATA[
+		SELECT
+			(
+				SELECT COUNT(*)
+				FROM "REPORT"
+				WHERE REPORT_DATE <
+				(SELECT TRUNC(SYSDATE) - INTERVAL '6' MONTH AS "6개월 전 시간" FROM DUAL)
+			) AS "report6m",
+			(
+				SELECT COUNT(*)
+				FROM "REPORT"
+				WHERE REPORT_DATE <
+				(SELECT TRUNC(SYSDATE) - INTERVAL '3' MONTH AS "3개월 전 시간" FROM DUAL)
+			) AS "report3m",
+			(
+				SELECT COUNT(*)
+				FROM "REPORT"
+				WHERE REPORT_DATE <
+				(SELECT TRUNC(SYSDATE) - INTERVAL '2' MONTH AS "2개월 전 시간" FROM DUAL)
+			) AS "report2m",
+			(
+				SELECT COUNT(*)
+				FROM "REPORT"
+				WHERE REPORT_DATE <
+				(SELECT TRUNC(SYSDATE) - INTERVAL '1' MONTH AS "1개월 전 시간" FROM DUAL)
+			) AS "report1m",
+			(
+				SELECT COUNT(*)
+				FROM "REPORT"
+				WHERE REPORT_DATE <
+				(SELECT SYSDATE - 14 AS "2주일 전 시간" FROM DUAL)
+			) AS "report2w",
+			(
+				SELECT COUNT(*)
+				FROM "REPORT"
+				WHERE REPORT_DATE <
+				(SELECT SYSDATE - 7 AS "1주일 전 시간" FROM DUAL)
+			) AS "report1w",
+			(
+				SELECT COUNT(*)
+				FROM "REPORT"
+			) AS "reportNow"
+		FROM DUAL
+	]]>
+	</select>
+	
+	<!-- 대시보드5 -->
+	<select id="report1" resultType="_int"><!-- 욕설 -->
+		SELECT COUNT(*)
+		FROM "REPORT"
+		WHERE REPORT_CATEGORY = '욕설'
+	</select>
+	<select id="report2" resultType="_int"><!-- 차별적표현 -->
+		SELECT COUNT(*)
+		FROM "REPORT"
+		WHERE REPORT_CATEGORY = '차별적표현'
+	</select>
+	<select id="report3" resultType="_int"><!-- 사칭 -->
+		SELECT COUNT(*)
+		FROM "REPORT"
+		WHERE REPORT_CATEGORY = '사칭'
+	</select>
+	<select id="report4" resultType="_int"><!-- 광고성, 도배글 -->
+		SELECT COUNT(*)
+		FROM "REPORT"
+		WHERE REPORT_CATEGORY = '광고성, 도배글'	
+	</select>
+	<select id="report5" resultType="_int"><!-- 선정성 -->
+		SELECT COUNT(*)
+		FROM "REPORT"
+		WHERE REPORT_CATEGORY = '선정성'
+	</select>
+	<select id="report6" resultType="_int"><!-- 불법정보포함 -->
+		SELECT COUNT(*)
+		FROM "REPORT"
+		WHERE REPORT_CATEGORY = '불법정보포함'
+	</select>
+	<select id="report7" resultType="_int"><!-- 개인정보 노출 -->
+		SELECT COUNT(*)
+		FROM "REPORT"
+		WHERE REPORT_CATEGORY = '개인정보 노출'
+	</select>
+	<select id="report8" resultType="_int"><!-- 기타 -->
+		SELECT COUNT(*)
+		FROM "REPORT"
+		WHERE REPORT_CATEGORY NOT IN ('욕설', '차별적표현', '사칭', '광고성, 도배글', '선정성', '불법정보포함', '개인정보 노출')
+	</select>
+	
+	<!-- 대시보드6 팝업창 -->
+	<select id="dashboard6China" resultType="map">
+		SELECT
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 1
+				AND TAG_NO = 1
+			) AS "chinaCommon",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 1
+				AND TAG_NO = 2
+			) AS "chinaFood",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 1
+				AND TAG_NO = 3
+			) AS "chinaTip",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 1
+				AND TAG_NO = 4
+			) AS "chinaTip"
+		FROM DUAL
+	</select>
+	<select id="dashboard6Japan" resultType="map">
+		SELECT
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 2
+				AND TAG_NO = 1
+			) AS "japanCommon",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 2
+				AND TAG_NO = 2
+			) AS "japanFood",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 2
+				AND TAG_NO = 3
+			) AS "japanTip",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 2
+				AND TAG_NO = 4
+			) AS "japanHealing"
+		FROM DUAL
+	</select>
+	<select id="dashboard6Vietnam" resultType="map">
+		SELECT
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 3
+				AND TAG_NO = 1
+			) AS "vietnamCommon",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 3
+				AND TAG_NO = 2
+			) AS "vietnamFood",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 3
+				AND TAG_NO = 3
+			) AS "vietnamTip",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 3
+				AND TAG_NO = 4
+			) AS "vietnamHealing"
+		FROM DUAL
+	</select>
+	<select id="dashboard6Thai" resultType="map">
+		SELECT
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 4
+				AND TAG_NO = 1
+			) AS "thaiCommon",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 4
+				AND TAG_NO = 2
+			) AS "thaiFood",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 4
+				AND TAG_NO = 3
+			) AS "thaiTip",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 4
+				AND TAG_NO = 4
+			) AS "thaiHealing"
+		FROM DUAL
+	</select>
+	<select id="dashboard6Australia" resultType="map">
+		SELECT
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 5
+				AND TAG_NO = 1
+			) AS "australiaCommon",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 5
+				AND TAG_NO = 2
+			) AS "australiaFood",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 5
+				AND TAG_NO = 3
+			) AS "australiaTip",
+			(
+				SELECT COUNT(*)
+				FROM "BOARD"
+				WHERE BOARD_DELETE = 'N'
+				AND COUNTRY_NO = 5
+				AND TAG_NO = 4
+			) AS "australiaHealing"
+		FROM DUAL
+	</select>
+	
+
+</mapper>

@@ -1,0 +1,43 @@
+
+/* 관리자 사이드바 */
+.manager--sidebar{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+}
+
+
+
+.manager--menu{
+    width: 150px;
+    /* height: ; */
+    /* background-color: #D9D9D9; */
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.manager--menu a{
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 10px 0 10px 0;
+}
+.manager--menu i{
+    padding-right: 5px;
+}
+
+/* 관리자 사이드바 상호작용 */
+.manager--menu a:hover {
+    color: cornflowerblue;
+}
+
+
+.manager-logoutBtn{
+    margin-left: 70px;
+}

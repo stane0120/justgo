@@ -1,0 +1,195 @@
+/* 글꼴 및 공통 ----------------------------------------------- */
+
+/* Noto Sans / Noto Serif 글꼴 지정 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap');
+/* font-family: 'Noto Sans KR', sans-serif; */
+/* font-family: 'Noto Serif KR', serif; */
+
+
+
+
+/* loginNav ----------------------------------------------- */
+
+/* loginNav 컨테이너 */
+.manager--loginNav__container {
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px 0 50px;
+    /* background: url('/resources/images//bg.png'); */
+}
+
+.manager--loginNav__container > form> a > img {
+    height: 50px;
+}
+
+/* loginNav 버튼 조정 */
+.manager--loginNav__container form {
+    margin-right: 10px;
+}
+.manager--loginNav__container form button {
+    border: none;
+    background-color: black;
+    color: snow;
+}
+
+/* loginNav 버튼 상호작용 */
+.manager--loginNav__container form button:hover {
+    background-color: cornflowerblue;
+}
+
+.manager--loginSession{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+}
+
+.manager--loginSession *{
+    margin: 0 2px;
+}
+
+
+/* header ----------------------------------------------- */
+
+/* header 컨테이너 */
+.manager--header__container {
+    /* height: 180px; */
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    background-image: url(/resources/images/officialPageTitle/PAGETITLE_MANAGER_HEADER.png);  
+    position: relative;
+}
+
+/* 프로필 박스 조정/상호작용 */
+.manager--header__profileContainer {
+    width: 700px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 0 0 10px 20px;
+}
+.manager--header__profileBox {
+    /* height: 80%; */
+    /* width: 90%; */
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.manager--header__profileBox > a {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 프로필 이미지 크기 조정 */
+.manager--header__profileImageBox {
+    height: 100px;
+    overflow: hidden;
+    border-radius: 100%;
+}
+.manager--header__profileImageBox > img {
+    object-fit: cover;
+    object-position: center center;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}
+
+/* 프로필 상호작용 */
+.manager--header__profileBox > a:hover {
+    font-weight: bold;
+}
+
+.manager--profileBox{
+    position: absolute;
+    top: 90%;
+    left: 43%;
+    transform: translate(-70%, -50%);
+    /* padding: 10px; */
+}
+
+
+.manager--memberNickname{
+    font-size: 1.7rem;
+    font-weight: bold;
+    width: auto;
+}
+
+
+
+/* alarm */
+#alarmToggle {
+    display: none;
+}
+
+label[for='alarmToggle'] {
+    cursor: pointer;
+}
+
+#alarmToggle + div {
+    display: none;
+}
+
+#alarmToggle:checked + div {
+    display: block;
+}
+
+.alarm-menu {
+    position: absolute;
+    top: 35px;
+    right: 250px;
+
+    background-color: ghostwhite;
+    z-index: 10;
+
+    border: 2px solid azure;
+    border-radius: 5px;
+
+    width: 330px;
+    height: 500px;
+
+    overflow-y: scroll;
+}
+
+.alarm-menu::-webkit-scrollbar{
+    display: none;
+}
+
+#alarmBtn{
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    border: none;
+    padding: 0 0;
+}
+
+.shake{
+    animation: shake 5s infinite;
+}
+
+@keyframes shake {
+    from {
+        transform: rotate(10deg);
+    }
+    to {
+        transform: rotate(-10deg);
+    }
+}
+
+.increaseNum{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 3;
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    text-align: center;
+    background-color: red;
+    border-radius: 15px;
+    display: inline-block;
+}

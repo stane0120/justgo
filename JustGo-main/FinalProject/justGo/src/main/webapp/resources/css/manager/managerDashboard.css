@@ -1,0 +1,148 @@
+/* 글꼴 및 공통 ----------------------------------------------- */
+
+/* Noto Sans / Noto Serif 글꼴 지정 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap');
+/* font-family: 'Noto Sans KR', sans-serif; */
+/* font-family: 'Noto Serif KR', serif; */
+
+/* 관리자 공통 ----------------------------------------------- */
+
+/* 관리자 컨테이너 */
+.manager--contentContainer {
+    height: 900px;
+    display: grid;
+    place-items: center;
+}
+
+/* 콘텐츠 박스 조정 */
+.manager--contentBox {
+    height: 700px;
+    width: 100%;
+    margin: 10px 30px 10px 30px;
+    display: grid;
+    grid-template-columns: 160px 1fr ;
+    place-items: center;
+}
+
+/* 관리자 사이드바 */
+.manager--sideContainer {
+    height: 100%;
+    width: 100%;
+    border-right: 1px solid #D9D9D9;
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    padding: 5px 0 5px;
+}
+
+
+/* mainBox 조정 */
+.manager--mainBox {
+    height: 800px;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+/* dashboard ----------------------------------------------- */
+
+/* dashboard */
+.dashboard__top {
+    width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.dashboard__bottom {
+    width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.dashboard {
+    border: 1px solid #D9D9D9;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+
+/* dashboard 제목 */
+.dashboard__top section,
+.dashboard__bottom section {
+    display: grid;
+    grid-template-rows: 30px 1fr;
+}
+.dashboardTitle {
+    padding: 0 15px 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    background-color: #D9D9D9;
+}
+
+/* dashboard1 */
+.dashboard1__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    place-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+.stat1, .stat2, .stat3, .stat4 {
+    height: 120px;
+    width: 150px;
+}
+.numberResult {
+    height: 60px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.tt {
+    text-align: center;
+}
+
+/* dashboard2 */
+.dashboard2__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* dashboard3 */
+.dashboard3__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* dashboard4 */
+.dashboard4__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* dashboard5 */
+.dashboard5__content {
+}
+
+/* dashboard 팝업창 ----------------------------------------------- */
+
+/* dashboard6 버튼 */
+#chartDetailBtn {
+    border: none;
+}
+
+/* dashboard6 팝업창 */
+.manager--chartPopup {
+    display: grid;
+    place-items: center;
+}
+.dashboard6_content {
+    height: 710px;
+    width: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
